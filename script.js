@@ -12,7 +12,6 @@ function resetGame() {
 function showWiner(text) {
     let massage = document.getElementById("message");
     let newGame = document.getElementById("newGame");
-    let remuveGrid = document.getElementById("gridContainer");
     let newGameBtn = document.createElement("button");
     newGameBtn.textContent = "New Game";
     newGameBtn.id = "btnNewGame";
