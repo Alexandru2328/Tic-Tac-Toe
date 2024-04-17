@@ -24,32 +24,44 @@ function showWiner(text) {
    }
 }
 
-function checkStatusX() {
-    let sumOfMainDigX = 0, sumOfSecondDigX = 0;
-    let sumOfMainDigO = 0, sumOfSecondDigO = 0;
+function checkStatus() {
+    let sumOfMainDig = 0, sumOfSecondDig = 0;
     for (let i = 0; i < matrixGame.length; ++i) {
-        let sumLineX = 0, sumColumnX = 0;
-        let sumLineO = 0, sumColumnO = 0;
+        let sumLine = 0, sumColumn = 0;
         for (let j = 0; j < matrixGame.length; ++j) {
-            sumLineX += (matrixGame[i][j] === 1) ? 1 : 0;
-            sumColumnX += (matrixGame[j][i] === 1) ? 1 : 0;
-            sumLineO += (matrixGame[i][j] === 2) ? 1 : 0;
-            sumColumnO += (matrixGame[j][i] === 2) ? 1 : 0;
+           if (matrixGame[i][j] === 1) {
+                ++sumLine;
+           } else if (matrixGame[i][j] === 2) {
+                --sumLine;
+           }
+           if (matrixGame[j][i] === 1) {
+                ++sumColumn;
+           } else if (matrixGame[j][i] === 2) {
+                --sumColumn;
+           }
         }
-        sumOfMainDigX += (matrixGame[i][i] === 1) ? 1 : 0;
-        sumOfMainDigO += (matrixGame[i][i] === 2) ? 1 : 0;
-        sumOfSecondDigX += (matrixGame[i][matrixGame.length - 1 - i] === 1) ? 1 : 0;
-        sumOfSecondDigO += (matrixGame[i][matrixGame.length - 1 - i] === 2) ? 1 : 0;
-        if (sumLineX === 3 || sumColumnX === 3 || sumOfMainDigX === 3 || sumOfSecondDigX === 3) {
+        if (matrixGame[i][i] === 1) {
+            ++sumOfMainDig;
+        } else if (matrixGame[i][i] === 2) {
+            --sumOfMainDig;
+        }
+        if (matrixGame[i][matrixGame.length - 1 - i] === 1) {
+            ++sumOfSecondDig;
+        } else if (matrixGame[i][matrixGame.length - 1 - i] === 2) {
+            --sumOfSecondDig;
+        }
+        if (sumLine === 3 || sumColumn === 3 || sumOfMainDig === 3 || 
+            sumOfSecondDig === 3) {
             showWiner("X has Won!!<br>" + "Winner Winner Chicken Dinner");
-        } else if (sumLineO === 3 || sumColumnO === 3 || sumOfMainDigO === 3 || sumOfSecondDigO === 3) {
+        } else if (sumLine === -3 || sumColumn === -3 || sumOfMainDig === -3 ||
+                   sumOfSecondDig === -3) {
             showWiner("O has Won!!<br>" + "Winner Winner Chicken Dinner")
         }
     }
 }
 
 function showSimbol(number1, number2, buttonId) {
-    if (buttonId.textContent !== 'X' && buttonId.textContent !== 'O') {
+    if (buttonId.textContent !== 'X' && buttonId.textContent !== 'O'){
         let mesage = document.getElementById("message");
         ++appearanceOrder;
         if (appearanceOrder % 2 !== 0) {
@@ -61,9 +73,9 @@ function showSimbol(number1, number2, buttonId) {
             matrixGame[number1][number2] = 2;
             mesage.innerHTML = "It is X turn";
         }
-        checkStatusX();
-        if (appearanceOrder === 9) {
-            showWiner("EQUALITY");
-        }
+        checkStatus();
+    }
+    if (appearanceOrder === 9) {
+        showWiner("EQUALITY");
     }
 }
