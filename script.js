@@ -24,39 +24,14 @@ function showWiner(text) {
    }
 }
 
-function checkStatus() {
-    let sumOfMainDig = 0, sumOfSecondDig = 0;
-    for (let i = 0; i < matrixGame.length; ++i) {
-        let sumLine = 0, sumColumn = 0;
-        for (let j = 0; j < matrixGame.length; ++j) {
-           if (matrixGame[i][j] === 1) {
-                ++sumLine;
-           } else if (matrixGame[i][j] === 2) {
-                --sumLine;
-           }
-           if (matrixGame[j][i] === 1) {
-                ++sumColumn;
-           } else if (matrixGame[j][i] === 2) {
-                --sumColumn;
-           }
-        }
-        if (matrixGame[i][i] === 1) {
-            ++sumOfMainDig;
-        } else if (matrixGame[i][i] === 2) {
-            --sumOfMainDig;
-        }
-        if (matrixGame[i][matrixGame.length - 1 - i] === 1) {
-            ++sumOfSecondDig;
-        } else if (matrixGame[i][matrixGame.length - 1 - i] === 2) {
-            --sumOfSecondDig;
-        }
-        if (sumLine === 3 || sumColumn === 3 || sumOfMainDig === 3 || 
-            sumOfSecondDig === 3) {
-            showWiner("X has Won!!<br>" + "Winner Winner Chicken Dinner");
-        } else if (sumLine === -3 || sumColumn === -3 || sumOfMainDig === -3 ||
-                   sumOfSecondDig === -3) {
-            showWiner("O has Won!!<br>" + "Winner Winner Chicken Dinner")
-        }
+function checkStatus(line, column, value) {
+    if ( (matrixGame[line][0] == value && matrixGame[line][1] == value &&  
+        matrixGame[line][2] == value) || (matrixGame[0][column] == value && 
+        matrixGame[1][column] == value &&  matrixGame[2][column] == value) || 
+        (matrixGame[0][0] == value && matrixGame[1][1] == value &&  
+        matrixGame[2][2] == value) || (matrixGame[0][2] == value &&
+        matrixGame[1][1] == value &&  matrixGame[2][0] == value)) {
+        showWiner("Player " + value + " has Won!!<br>Winner Winner Chicken Dinner");
     }
 }
 
@@ -73,7 +48,7 @@ function showSimbol(number1, number2, buttonId) {
             matrixGame[number1][number2] = 2;
             mesage.innerHTML = "It is X turn";
         }
-        checkStatus();
+        checkStatus(number1, number2, matrixGame[number1][number2]);
     }
     if (appearanceOrder === 9) {
         showWiner("EQUALITY");
